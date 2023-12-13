@@ -25,6 +25,11 @@ const PLAYERS = [
 class Player {
   constructor(id, name, type) {
     // Progression 1: Create member variables and assign values
+    this.id = id
+    this.name = name
+    this.image = `images/super-${id + 1}.png`
+    this.strength = this.getRandomStrength()
+    this.type = type
   }
   // getting random strength
   getRandomStrength = () => {
@@ -35,6 +40,23 @@ class Player {
   view = () => {
     // Accumulate HTML template
     // Type your code here
+    let player = document.createElement("div")
+    player.setAttribute("data-id",this.id)
+    player.classList.add("player")
+    
+    const image = document.createElement("img")
+    image.setAttribute("src",this.image)
+    
+    const name = document.createElement("div")
+    name.textContent = this.name
+    name.classList.add("name")
+
+    const strength = document.createElement("div")
+    strength.textContent = this.strength
+    strength.classList.add("strength")
+    
+
+    player.append(image,name,strength)
 
     return player;
   };
@@ -47,6 +69,16 @@ class Superwar {
     // Create a field players
     // Use Map method to loop through players argument and create new players
     // Type your code here
+    this.players = players.map((name,id)=>{
+      let type = ""
+      if(id%2==0){
+        type = "hero"
+      }else{
+        type = "villian"
+      }
+      return new Player(id,name,type)
+
+    })
   }
 
   // Display players in HTML
@@ -73,7 +105,7 @@ class Superwar {
 }
 
 // uncomment this part -- only after you complete progression 3
-// window.onload = () => {
-//     const superwar = new Superwar(PLAYERS);
-//     superwar.viewPlayers();
-// }
+window.onload = () => {
+    const superwar = new Superwar(PLAYERS);
+    superwar.viewPlayers();
+}
